@@ -37,35 +37,38 @@ public class Amida {
 		}
 	}
 	
-	public void addLineH(int fromIndex, int fromOrder, int toIndex, int toOrder){
-		if(invalidArgs(fromIndex, fromOrder) || invalidArgs(toIndex, toOrder) || 
-		   invalidConnection(fromIndex, fromOrder, toIndex, toOrder))
+	public void addLineH(JointPosition fromPosition, JointPosition toPosition){
+		if(invalidPosition(fromPosition) || invalidPosition(toPosition) || 
+			invalidConnection(fromPosition, toPosition))
 			return;
 		
-		LineV from = lineV[fromIndex];
-		LineV to = lineV[toIndex];
-		LineH hLine = LineV.connect(from, fromOrder, to, toOrder);
+		LineV from = lineV[fromPosition.index];
+		LineV to = lineV[toPosition.index];
+		LineH hLine = LineV.connect(from, fromPosition.order, to, toPosition.order);
 		lineH.add(hLine);
 	}
+	public void addLineH(int fromIndex, int fromOrder, int toIndex, int toOrder){
+		addLineH(new JointPosition(fromIndex, fromOrder), new JointPosition(toIndex, toOrder));
+	}
 
-	private boolean invalidConnection(int fromIndex, int fromOrder, int toIndex, int toOrder) {
-		if(fromIndex == toIndex || toIndex - fromIndex != 1)
+	private boolean invalidConnection(JointPosition fromPosition, JointPosition toPosition){
+		if(fromPosition.index == toPosition.index || toPosition.index - fromPosition.index != 1)
 			return true;
 		
-		LineV from = lineV[fromIndex];
-		LineV to = lineV[toIndex];
-		List<LineH> fromAbove = from.getLineH(0, fromOrder, fromIndex);
-		List<LineH> fromBelow = from.getLineH(fromOrder, from.getJointNum(), fromIndex);
-		List<LineH> toAbove = to.getLineH(0, toOrder, fromIndex);
-		List<LineH> toBelow = to.getLineH(toOrder, to.getJointNum(), fromIndex);
+		LineV from = lineV[fromPosition.index];
+		LineV to = lineV[toPosition.index];
+		List<LineH> fromAbove = from.getLineH(0, fromPosition.order, fromPosition.index);
+		List<LineH> fromBelow = from.getLineH(fromPosition.order, from.getJointNum(), fromPosition.index);
+		List<LineH> toAbove = to.getLineH(0, toPosition.order, fromPosition.index);
+		List<LineH> toBelow = to.getLineH(toPosition.order, to.getJointNum(), fromPosition.index);
 		
 		return !(fromAbove.equals(toAbove) && fromBelow.equals(toBelow));
 	}
 	
-	private boolean invalidArgs(int index, int order){
-		if (index < 0 || index >= lineV.length)
+	private boolean invalidPosition(JointPosition j){
+		if (j.index < 0 || j.index >= lineV.length)
 			return true;
-		if(order < 0 || order > lineV[index].getJointNum())
+		if(j.order < 0 || j.order > lineV[j.index].getJointNum())
 			return true;
 		return false;
 	}
