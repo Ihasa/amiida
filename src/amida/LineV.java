@@ -51,12 +51,10 @@ public class LineV {
 		return endIndex;
 	}
 	public static LineH connect(LineV l1, int order1, LineV l2, int order2){
-		Joint joint1 = new Joint(l1);
-		Joint joint2 = new Joint(l2);
-		Joint.connect(joint1, joint2);
-		l1.joints.add(order1, joint1);
-		l2.joints.add(order2, joint2);
-		return new LineH(joint1, joint2);
+		LineH lineH = new LineH(l1, l2);
+		l1.joints.add(order1, lineH.leftJoint);
+		l2.joints.add(order2, lineH.rightJoint);
+		return lineH;
 	}
 
 	public Joint getPrevJoint(Joint joint) {

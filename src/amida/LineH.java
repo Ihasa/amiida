@@ -3,11 +3,10 @@ package amida;
 public class LineH {
 	public final Joint leftJoint;
 	public final Joint rightJoint;
-	public LineH(Joint left, Joint right) {
-		leftJoint = left;
-		rightJoint = right;
-		leftJoint.setAssignmentH(this);
-		rightJoint.setAssignmentH(this);
+
+	public LineH(LineV lv1, LineV lv2){
+		leftJoint = new Joint(lv1, this);
+		rightJoint = new Joint(lv2, this);
 	}
 	
 	public int getOrder(){
@@ -34,12 +33,16 @@ public class LineH {
 	private LineH getRightPrev(){
 		return rightJoint.getPrev().getAssignmentH();
 	}
-	
-//	public int getOrderOnPath(){
-//		return Math.max(leftJoint.getOrderOnPath(), rightJoint.getOrderOnPath());
-//	}
-	
+		
 	public int getStartIndex(){
 		return leftJoint.getStartIndex();
+	}
+	
+	public Joint getConnection(Joint j){
+		if(j == leftJoint)
+			return rightJoint;
+		else if(j == rightJoint)
+			return leftJoint;
+		return null;
 	}
 }

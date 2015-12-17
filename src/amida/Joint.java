@@ -1,26 +1,17 @@
 package amida;
 public class Joint {
-
-	private Joint connection;//TODO: QÆ‚Â‚Ì‚â‚ß‚ÄLineH‚É–â‚¢‡‚í‚¹‚é•û‚ªƒVƒ“ƒvƒ‹
-
 	private LineV assignmentV;
 	
 	private LineH assignmentH;
 
-	private Joint(Joint iniConnection, LineV assign){
-		connection = iniConnection;
-		assignmentV = assign;
-	}
 	
-	public Joint(LineV assign){
-		this(null,assign);
+	public Joint(LineV assignV, LineH assignH){
+		assignmentV = assignV;
+		assignmentH = assignH;
 	}
 	
 	public Joint getConnection() {
-		return connection;
-	}
-	public void setConnection(Joint j){
-		connection = j;
+		return assignmentH.getConnection(this);
 	}
 
 	public Joint getNext(){
@@ -67,15 +58,8 @@ public class Joint {
 		return res;
 	}
 	
-	public void setAssignmentH(LineH l){
-		assignmentH = l;
-	}
 	public LineH getAssignmentH(){
 		return assignmentH;
 	}
 	
-	public static void connect(Joint j1, Joint j2){
-		j1.connection = j2;
-		j2.connection = j1;
-	}
 }
