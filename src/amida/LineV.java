@@ -2,6 +2,7 @@ package amida;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class LineV {
 	
@@ -19,6 +20,16 @@ public class LineV {
 	
 	public Joint getJoint(int order) {
 		return joints.get(order);
+	}
+	
+	public List<LineH> getLineH(int from, int to, int index){
+		List<LineH> res = new LinkedList<LineH>();
+		for(int i = from; i < to; i++){
+			LineH lh = joints.get(i).getAssignmentH();
+			if(lh.getStartIndex() == index)
+				res.add(lh);
+		}
+		return res;
 	}
 	
 	public LineH getLineH(int order){

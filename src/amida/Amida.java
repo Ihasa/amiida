@@ -51,33 +51,13 @@ public class Amida {
 	private boolean invalidConnection(int fromIndex, int fromOrder, int toIndex, int toOrder) {
 		if(fromIndex == toIndex || toIndex - fromIndex != 1)
 			return true;
-		List<LineH> fromAbove = new ArrayList<LineH>();
-		List<LineH> fromBelow = new ArrayList<LineH>();
-		List<LineH> toAbove = new ArrayList<LineH>();
-		List<LineH> toBelow = new ArrayList<LineH>();
-
+		
 		LineV from = lineV[fromIndex];
-		for(int i = 0; i < fromOrder; i++){
-			LineH lh = from.getLineH(i);
-			if(lh.getStartIndex() == fromIndex)
-				fromAbove.add(lh);
-		}
-		for(int i = fromOrder; i < from.getJointNum(); i++){
-			LineH lh = from.getLineH(i);
-			if(lh.getStartIndex() == fromIndex)
-				fromBelow.add(lh);
-		}
 		LineV to = lineV[toIndex];
-		for(int i = 0; i < toOrder; i++){
-			LineH lh = to.getLineH(i);
-			if(lh.getStartIndex() == fromIndex)
-				toAbove.add(lh);
-		}
-		for(int i = toOrder; i < to.getJointNum(); i++){
-			LineH lh = to.getLineH(i);
-			if(lh.getStartIndex() == fromIndex)
-				toBelow.add(lh);
-		}
+		List<LineH> fromAbove = from.getLineH(0, fromOrder, fromIndex);
+		List<LineH> fromBelow = from.getLineH(fromOrder, from.getJointNum(), fromIndex);
+		List<LineH> toAbove = to.getLineH(0, toOrder, fromIndex);
+		List<LineH> toBelow = to.getLineH(toOrder, to.getJointNum(), fromIndex);
 		
 		return !(fromAbove.equals(toAbove) && fromBelow.equals(toBelow));
 	}
