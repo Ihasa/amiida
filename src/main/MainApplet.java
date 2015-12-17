@@ -157,9 +157,9 @@ public class MainApplet extends Applet{
 				return mx > offsetX && mx < offsetX + width&& 
 						my > offsetY && my < offsetY + height;
 			}
-			private int getOrder(int mouseY){
-				return (int)((mouseY - offsetY) / getHLineOffset(amida.getLineH()));
-			}
+//			private int getOrder(int mouseY){
+//				return (int)((mouseY - offsetY) / getHLineOffset(amida.getLineH()));
+//			}
 			
 			private int getClickedVLineIndex(int mx){
 				float offset = getVLineOffset(amida.getLineV());

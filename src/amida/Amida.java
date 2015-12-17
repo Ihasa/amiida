@@ -15,12 +15,12 @@ public class Amida {
 		}
 		lineH = new ArrayList<LineH>();
 	}
-	public Amida(int vLines, int[] hLineIndex){
-		this(vLines);
-		for(int idx : hLineIndex){
-			addLineH(idx);
-		}
-	}
+//	public Amida(int vLines, int[] hLineIndex){
+//		this(vLines);
+//		for(int idx : hLineIndex){
+//			addLineH(idx);
+//		}
+//	}
 	
 	public Amida(String[] endIndexes){
 		lineV = new LineV[endIndexes.length];
@@ -30,12 +30,12 @@ public class Amida {
 		lineH = new ArrayList<LineH>();	
 	}
 	
-	public Amida(String[] endIndexes, int[] hLineIndex){
-		this(endIndexes);
-		for(int idx : hLineIndex){
-			addLineH(idx);
-		}
-	}
+//	public Amida(String[] endIndexes, int[] hLineIndex){
+//		this(endIndexes);
+//		for(int idx : hLineIndex){
+//			addLineH(idx);
+//		}
+//	}
 	
 	public LineH addLineH(int fromIndex, int fromOrder, int toIndex, int toOrder){
 		if(invalidArgs(fromIndex, fromOrder) || invalidArgs(toIndex, toOrder) || 
@@ -77,17 +77,17 @@ public class Amida {
 //		addLineH(fromIndex, fromOrder, toIndex, toOrder);
 //	}
 	
-	public void addLineH(int fromIndex){
-		int fromOrder = lineV[fromIndex].getJointNum();
-		int toOrder = lineV[fromIndex + 1].getJointNum();
-		addLineH(fromIndex, fromOrder, fromIndex + 1, toOrder);
-	}
-	
-	public void addLineH(int[] fromIndexes){
-		for(int idx : fromIndexes){
-			addLineH(idx);
-		}
-	}
+//	public void addLineH(int fromIndex){
+//		int fromOrder = lineV[fromIndex].getJointNum();
+//		int toOrder = lineV[fromIndex + 1].getJointNum();
+//		addLineH(fromIndex, fromOrder, fromIndex + 1, toOrder);
+//	}
+//	
+//	public void addLineH(int[] fromIndexes){
+//		for(int idx : fromIndexes){
+//			addLineH(idx);
+//		}
+//	}
 	
 //	public LineH addLineH(int fromIndex, int hOrder){
 //		return addLineH(fromIndex, getOrder(fromIndex, hOrder), fromIndex + 1, getOrder(fromIndex + 1, hOrder));
@@ -104,12 +104,12 @@ public class Amida {
 //		return res;
 //	}
 
-	public void addRandom(int num){
-		for(int i = 0; i < num; i++){
-			int index = (int)(Math.random() * (lineV.length - 1));
-			addLineH(index);
-		}
-	}
+//	public void addRandom(int num){
+//		for(int i = 0; i < num; i++){
+//			int index = (int)(Math.random() * (lineV.length - 1));
+//			addLineH(index);
+//		}
+//	}
 	
 	public LineV[] getLineV(){
 		return lineV.clone();
