@@ -85,6 +85,10 @@ public class MainApplet extends Applet{
 				if(me.getButton() != MouseEvent.BUTTON1){
 					mode = MODE_MOVE;
 					return;
+				}else if(!me.isControlDown() && me.getClickCount() == 2){
+					alignLineH();
+					repaint();
+					return;
 				}
 				else
 					mode = MODE_ADD_LINE;
@@ -229,6 +233,16 @@ public class MainApplet extends Applet{
 		return (float)width / (vLines.length - 1);
 	}
 
+	private void alignLineH(){
+		LineH[] hLines = amida.getLineH();
+		float hLineOffset = getHLineOffset(hLines);
+		for(LineH lh : hLines){
+			float offset = ((lh.getOrder()+1) * hLineOffset) / height;
+			drawInfo.put(lh.leftJoint, offset);
+			drawInfo.put(lh.rightJoint, offset);
+		}
+	}
+	
 	private float getHLineOffset(LineH[] hLines) {
 		return (float)height / (getMaxOrder(hLines) + 1 + 1);
 	}
