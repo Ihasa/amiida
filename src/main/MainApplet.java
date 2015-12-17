@@ -18,6 +18,7 @@ public class MainApplet extends Applet{
 	private int width = 300;
 	private int height = 300;
 	private int lineThickness = width / 10;
+	private HashMap<Joint, Float> drawInfo = new HashMap<Joint, Float>();
 	
 	private int mode = MODE_MOVE;
 	private static final int MODE_MOVE = 0;
@@ -27,7 +28,7 @@ public class MainApplet extends Applet{
 	private int prevY = 0;
 	private int pressedX = 0;
 	private int pressedY = 0;
-		
+	
 	public void init(){
 		amida = new Amida(new String[]{"hoge","foo","bar","buz"});
 		this.addMouseMotionListener(new MouseMotionAdapter(){
@@ -91,7 +92,16 @@ public class MainApplet extends Applet{
 				int my = me.getY();
 				if(me.isControlDown()){
 					if(containsMouse(mx, my)){
-						amida.addLineH(getLeftVLineIndex(mx), getOrder(my));
+//						LineH lh = amida.addLineH(getLeftVLineIndex(mx), getOrder(my));
+						int vIndex = getLeftVLineIndex(mx);
+						int fromOrder = getOrder(vIndex, my);
+						int toOrder = getOrder(vIndex + 1, my);
+						LineH lh = amida.addLineH(vIndex, fromOrder, vIndex + 1, toOrder);
+						if(lh != null){
+							float offset = (float)(my - offsetY) / height;
+							drawInfo.put(lh.leftJoint, offset);
+							drawInfo.put(lh.rightJoint, offset);
+						}
 						repaint();
 					}
 					mode = MODE_MOVE;
@@ -112,6 +122,10 @@ public class MainApplet extends Applet{
 				int toIndex = getClickedVLineIndex(mx);
 				if(toIndex != -1){
 					int toOrder = getOrder(toIndex, my);
+					
+					float fromOffset = (float)(pressedY - offsetY) / height;
+					float toOffset = (float)(my - offsetY) / height;
+					
 					if(fromIdxBuf > toIndex){
 						int tmp = fromIdxBuf;
 						fromIdxBuf = toIndex;
@@ -120,8 +134,16 @@ public class MainApplet extends Applet{
 						tmp = fromOrdBuf;
 						fromOrdBuf = toOrder;
 						toOrder = tmp;
+						
+						float tmp2 = fromOffset;
+						fromOffset = toOffset;
+						toOffset = tmp2;
 					}
-					amida.addLineH(fromIdxBuf, fromOrdBuf, toIndex, toOrder);
+					LineH lh = amida.addLineH(fromIdxBuf, fromOrdBuf, toIndex, toOrder);
+					if(lh != null){
+						drawInfo.put(lh.leftJoint, fromOffset);
+						drawInfo.put(lh.rightJoint, toOffset);
+					}
 				}
 				repaint();
 				fromOrdBuf = fromIdxBuf = -1;
@@ -149,12 +171,21 @@ public class MainApplet extends Applet{
 			}
 			
 			private int getOrder(int vLineIndex, int mouseY){
-				int hOrder = getOrder(mouseY);
+//				int hOrder = getOrder(mouseY);
+//				LineV lv = amida.getLineV()[vLineIndex];
+//				int res = 0;
+//				for(int i = 0; i < lv.getJointNum(); i++){
+//					Joint j = lv.getJoint(i);
+//					if(j.getAssignmentH().getOrder() < hOrder)
+//						res++;
+//				}
+//				return res;
+				float offset = (float)(mouseY - offsetY) / height;
 				LineV lv = amida.getLineV()[vLineIndex];
 				int res = 0;
 				for(int i = 0; i < lv.getJointNum(); i++){
 					Joint j = lv.getJoint(i);
-					if(j.getAssignmentH().getOrder() < hOrder)
+					if(offset > drawInfo.get(j))
 						res++;
 				}
 				return res;
@@ -176,12 +207,15 @@ public class MainApplet extends Applet{
 		}
 		
 		LineH[] hLines = amida.getLineH();
-		float hLineOffset = getHLineOffset(hLines);
+//		float hLineOffset = getHLineOffset(hLines);
 		for(int i = 0; i < hLines.length; i++){
 			LineH lh = hLines[i];
 			int x = offsetX + (int)(lh.getStartIndex() * vLineOffset);
-			int y = offsetY + (int)((lh.getOrder()+1)*hLineOffset);
-			drawLineH(g, x, y, (int)vLineOffset, lineThickness / 4);
+//			int y = offsetY + (int)((lh.getOrder()+1)*hLineOffset);
+			int y1 = offsetY + (int)(drawInfo.get(lh.leftJoint) * height);
+			int y2 = offsetY + (int)(drawInfo.get(lh.rightJoint) * height);
+//			drawLineH(g, x, y, (int)vLineOffset, lineThickness / 4);
+			g.drawLine(x, y1, x + (int)vLineOffset, y2);
 		}
 		//max(i+1) == hLines.length
 		//max(lh.order()) == getMaxOrder(hLines)

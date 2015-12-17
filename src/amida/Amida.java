@@ -37,15 +37,17 @@ public class Amida {
 		}
 	}
 	
-	public void addLineH(int fromIndex, int fromOrder, int toIndex, int toOrder){
+	public LineH addLineH(int fromIndex, int fromOrder, int toIndex, int toOrder){
 		if(invalidArgs(fromIndex, fromOrder) || invalidArgs(toIndex, toOrder) || 
 		   invalidConnection(fromIndex, fromOrder, toIndex, toOrder))
-			return;
+			return null;
 		
 		LineV from = lineV[fromIndex];
 		LineV to = lineV[toIndex];
 		LineH hLine = LineV.connect(from, fromOrder, to, toOrder);
 		lineH.add(hLine);
+		
+		return hLine;
 	}
 
 	private boolean invalidConnection(int fromIndex, int fromOrder, int toIndex, int toOrder) {
@@ -87,20 +89,20 @@ public class Amida {
 		}
 	}
 	
-	public void addLineH(int fromIndex, int hOrder){
-		addLineH(fromIndex, getOrder(fromIndex, hOrder), fromIndex + 1, getOrder(fromIndex + 1, hOrder));
-	}
-	
-	private int getOrder(int vLineIndex, int hOrder){
-		LineV lv = lineV[vLineIndex];
-		int res = 0;
-		for(int i = 0; i < lv.getJointNum(); i++){
-			Joint j = lv.getJoint(i);
-			if(j.getAssignmentH().getOrder() < hOrder)
-				res++;
-		}
-		return res;
-	}
+//	public LineH addLineH(int fromIndex, int hOrder){
+//		return addLineH(fromIndex, getOrder(fromIndex, hOrder), fromIndex + 1, getOrder(fromIndex + 1, hOrder));
+//	}
+//	
+//	private int getOrder(int vLineIndex, int hOrder){
+//		LineV lv = lineV[vLineIndex];
+//		int res = 0;
+//		for(int i = 0; i < lv.getJointNum(); i++){
+//			Joint j = lv.getJoint(i);
+//			if(j.getAssignmentH().getOrder() < hOrder)
+//				res++;
+//		}
+//		return res;
+//	}
 
 	public void addRandom(int num){
 		for(int i = 0; i < num; i++){
