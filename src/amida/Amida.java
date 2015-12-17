@@ -15,12 +15,6 @@ public class Amida {
 		}
 		lineH = new ArrayList<LineH>();
 	}
-//	public Amida(int vLines, int[] hLineIndex){
-//		this(vLines);
-//		for(int idx : hLineIndex){
-//			addLineH(idx);
-//		}
-//	}
 	
 	public Amida(String[] endIndexes){
 		lineV = new LineV[endIndexes.length];
@@ -29,13 +23,6 @@ public class Amida {
 		}
 		lineH = new ArrayList<LineH>();	
 	}
-	
-//	public Amida(String[] endIndexes, int[] hLineIndex){
-//		this(endIndexes);
-//		for(int idx : hLineIndex){
-//			addLineH(idx);
-//		}
-//	}
 	
 	public LineH addLineH(int fromIndex, int fromOrder, int toIndex, int toOrder){
 		if(invalidArgs(fromIndex, fromOrder) || invalidArgs(toIndex, toOrder) || 
@@ -71,45 +58,6 @@ public class Amida {
 			return true;
 		return false;
 	}
-//	public void addLineH(int fromIndex, int toIndex){
-//		int fromOrder = lineV[fromIndex].getJointNum();
-//		int toOrder = lineV[toIndex].getJointNum();
-//		addLineH(fromIndex, fromOrder, toIndex, toOrder);
-//	}
-	
-//	public void addLineH(int fromIndex){
-//		int fromOrder = lineV[fromIndex].getJointNum();
-//		int toOrder = lineV[fromIndex + 1].getJointNum();
-//		addLineH(fromIndex, fromOrder, fromIndex + 1, toOrder);
-//	}
-//	
-//	public void addLineH(int[] fromIndexes){
-//		for(int idx : fromIndexes){
-//			addLineH(idx);
-//		}
-//	}
-	
-//	public LineH addLineH(int fromIndex, int hOrder){
-//		return addLineH(fromIndex, getOrder(fromIndex, hOrder), fromIndex + 1, getOrder(fromIndex + 1, hOrder));
-//	}
-//	
-//	private int getOrder(int vLineIndex, int hOrder){
-//		LineV lv = lineV[vLineIndex];
-//		int res = 0;
-//		for(int i = 0; i < lv.getJointNum(); i++){
-//			Joint j = lv.getJoint(i);
-//			if(j.getAssignmentH().getOrder() < hOrder)
-//				res++;
-//		}
-//		return res;
-//	}
-
-//	public void addRandom(int num){
-//		for(int i = 0; i < num; i++){
-//			int index = (int)(Math.random() * (lineV.length - 1));
-//			addLineH(index);
-//		}
-//	}
 	
 	public LineV[] getLineV(){
 		return lineV.clone();
@@ -139,33 +87,6 @@ public class Amida {
 		return j.getResult();		
 	}
 
-//	public String toString(){
-//		int length = maxIndexLength();
-//		String space = String.format("%" + length + "s", " ");
-//		String hyphen = space.replaceAll(" ", "-");
-//		
-//		StringBuilder sb = new StringBuilder();
-//		for(LineV l : lineV){
-//			sb.append(String.format("%-" + (1 + length) + "d", l.getStartIndex()));
-//		}
-//		sb.append("\n");
-//		
-//		for(LineH lh : lineH){
-//			int lhIndex = lh.getStartIndex();
-//			sb.append("|");
-//			for(int i = 0; i < lineV.length - 1; i++){
-//				sb.append(lhIndex == i ? hyphen : space);
-//				sb.append("|");
-//			}
-//			sb.append("\n");
-//		}
-//		
-//		for(LineV l : lineV){
-//			sb.append(String.format("%-" + (1 + length) + "s", l.getEndIndex()));
-//		}
-//		return sb.toString();
-//	}
-	
 	public String toString(){
 		int length = maxIndexLength();
 		String space = String.format("%" + length + "s", " ");

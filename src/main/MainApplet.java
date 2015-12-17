@@ -165,9 +165,6 @@ public class MainApplet extends Applet{
 				return mx > offsetX && mx < offsetX + width&& 
 						my > offsetY && my < offsetY + height;
 			}
-//			private int getOrder(int mouseY){
-//				return (int)((mouseY - offsetY) / getHLineOffset(amida.getLineH()));
-//			}
 			
 			private int getClickedVLineIndex(int mx){
 				float offset = getVLineOffset(amida.getLineV());
@@ -179,15 +176,6 @@ public class MainApplet extends Applet{
 			}
 			
 			private int getOrder(int vLineIndex, int mouseY){
-//				int hOrder = getOrder(mouseY);
-//				LineV lv = amida.getLineV()[vLineIndex];
-//				int res = 0;
-//				for(int i = 0; i < lv.getJointNum(); i++){
-//					Joint j = lv.getJoint(i);
-//					if(j.getAssignmentH().getOrder() < hOrder)
-//						res++;
-//				}
-//				return res;
 				float offset = (float)(mouseY - offsetY) / height;
 				LineV lv = amida.getLineV()[vLineIndex];
 				int res = 0;
@@ -215,14 +203,11 @@ public class MainApplet extends Applet{
 		}
 		
 		LineH[] hLines = amida.getLineH();
-//		float hLineOffset = getHLineOffset(hLines);
 		for(int i = 0; i < hLines.length; i++){
 			LineH lh = hLines[i];
 			int x = offsetX + (int)(lh.getStartIndex() * vLineOffset);
-//			int y = offsetY + (int)((lh.getOrder()+1)*hLineOffset);
 			int y1 = offsetY + (int)(drawInfo.get(lh.leftJoint) * height);
 			int y2 = offsetY + (int)(drawInfo.get(lh.rightJoint) * height);
-//			drawLineH(g, x, y, (int)vLineOffset, lineThickness / 4);
 			g.drawLine(x, y1, x + (int)vLineOffset, y2);
 		}
 		//max(i+1) == hLines.length
