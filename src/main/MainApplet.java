@@ -39,8 +39,12 @@ public class MainApplet extends Applet{
 				if(mode == MODE_MOVE){
 					offsetX += me.getX() - prevX;
 					offsetY += me.getY() - prevY;
-				}
-				updatePrev(me);
+					updatePrev(me);
+				}else if(me.isShiftDown()){
+					prevX = me.getX();
+					prevY = pressedY;
+				}else
+					updatePrev(me);
 				repaint();
 			}
 			private void updatePrev(MouseEvent me){
@@ -122,7 +126,7 @@ public class MainApplet extends Applet{
 				if(fromIdxBuf == -1 || fromOrdBuf == -1)
 					return;
 				int mx = me.getX();
-				int my = me.getY();
+				int my = prevY;//me.getY();
 				int toIndex = getClickedVLineIndex(mx);
 				if(toIndex != -1){
 					int toOrder = getOrder(toIndex, my);
